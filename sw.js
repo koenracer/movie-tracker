@@ -1,3 +1,4 @@
+// sw.js
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open('static').then(cache => cache.addAll([
