@@ -12,28 +12,42 @@
     <h1>Mijn Series & Films Tracker</h1>
   </header>
   <main>
-    <section>
-      <h2>Progressie bij Series</h2>
-      <ul id="series-list"></ul>
-      <input type="text" id="new-series-title" placeholder="Nieuwe serie naam">
-      <input type="number" id="new-series-progress" placeholder="Afl. gekeken">
-      <button id="add-series">Toevoegen</button>
-    </section>
-
+    <!-- Watched Section -->
     <section>
       <h2>Gekeken</h2>
-      <ul id="watched-list"></ul>
-      <input type="text" id="new-watched-title" placeholder="Serie/Film naam">
-      <button id="add-watched">Toevoegen</button>
+      <ul id="watched-list" class="list"></ul>
     </section>
 
+    <!-- In Progress Section -->
+    <section>
+      <h2>Bezig</h2>
+      <ul id="inprogress-list" class="list"></ul>
+    </section>
+
+    <!-- To-Do Section -->
     <section>
       <h2>Wil Nog Kijken</h2>
-      <ul id="todo-list"></ul>
-      <input type="text" id="new-todo-title" placeholder="Serie/Film naam">
-      <button id="add-todo">Toevoegen</button>
+      <ul id="todo-list" class="list"></ul>
     </section>
   </main>
+
+  <!-- Floating Add Button -->
+  <button id="add-btn" class="fab">+</button>
+
+  <!-- Modal for Add/Edit -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <h3 id="modal-title">Item toevoegen</h3>
+      <input type="text" id="item-title" placeholder="Titel">
+      <select id="item-type">
+        <option value="serie">Serie</option>
+        <option value="film">Film</option>
+      </select>
+      <button id="save-item">Opslaan</button>
+      <button id="cancel">Annuleren</button>
+    </div>
+  </div>
+
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
