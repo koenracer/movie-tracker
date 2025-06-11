@@ -2,109 +2,43 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kijklijst App</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      max-width: 400px;
-      margin: 0 auto 20px;
-      gap: 10px;
-    }
-
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-    }
-
-    .lijst {
-      max-width: 500px;
-      margin: 0 auto;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-    }
-
-    .item {
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .item:last-child {
-      border-bottom: none;
-    }
-
-    .verwijder {
-      float: right;
-      color: red;
-      cursor: pointer;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Series & Films Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <header>
+    <h1>Mijn Series & Films Tracker</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Progressie bij Series</h2>
+      <ul id="series-list"></ul>
+      <input type="text" id="new-series-title" placeholder="Nieuwe serie naam">
+      <input type="number" id="new-series-progress" placeholder="Afl. gekeken">
+      <button id="add-series">Toevoegen</button>
+    </section>
 
-  <h1>Mijn Kijklijst</h1>
+    <section>
+      <h2>Gekeken</h2>
+      <ul id="watched-list"></ul>
+      <input type="text" id="new-watched-title" placeholder="Serie/Film naam">
+      <button id="add-watched">Toevoegen</button>
+    </section>
 
-  <form id="kijkForm">
-    <input type="text" id="titel" placeholder="Titel van film/serie" required>
-    <input type="text" id="voortgang" placeholder="Bijv. Seizoen 2, Aflevering 3" required>
-    <button type="submit">Toevoegen</button>
-  </form>
-
-  <div class="lijst" id="kijkLijst"></div>
-
+    <section>
+      <h2>Wil Nog Kijken</h2>
+      <ul id="todo-list"></ul>
+      <input type="text" id="new-todo-title" placeholder="Serie/Film naam">
+      <button id="add-todo">Toevoegen</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
   <script>
-    const form = document.getElementById('kijkForm');
-    const lijst = document.getElementById('kijkLijst');
-
-    // Ophalen uit localStorage
-    let kijkItems = JSON.parse(localStorage.getItem('kijkItems')) || [];
-
-    function toonLijst() {
-      lijst.innerHTML = '';
-      kijkItems.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'item';
-        div.innerHTML = `<strong>${item.titel}</strong> - ${item.voortgang} 
-                         <span class="verwijder" onclick="verwijderItem(${index})">✖</span>`;
-        lijst.appendChild(div);
-      });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
     }
-
-    function verwijderItem(index) {
-      kijkItems.splice(index, 1);
-      localStorage.setItem('kijkItems', JSON.stringify(kijkItems));
-      toonLijst();
-    }
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const titel = document.getElementById('titel').value.trim();
-      const voortgang = document.getElementById('voortgang').value.trim();
-
-      if (titel && voortgang) {
-        kijkItems.push({ titel, voortgang });
-        localStorage.setItem('kijkItems', JSON.stringify(kijkItems));
-        form.reset();
-        toonLijst();
-      }
-    });
-
-    // Initialiseren
-    toonLijst();
   </script>
-
 </body>
 </html>
