@@ -31,15 +31,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function render() {
     document.getElementById('watched-list').innerHTML = data.watched.map((item, i) =>
-      `<li data-list="watched" data-index="${i}">${item.title}</li>`
+      `<li data-list=\"watched\" data-index=\"${i}\">${item.title}</li>`
     ).join('');
 
     inProgList.innerHTML = data.inprogress.map((item, i) =>
-      `<li data-list="inprogress" data-index="${i}">${item.title} (${item.type}${item.type === 'serie' ? ` - afl ${item.episode}` : ` - min ${item.time}`})</li>`
+      `<li data-list=\"inprogress\" data-index=\"${i}\">${item.title} (${item.type}${item.type === 'serie' ? ` - afl ${item.episode}` : ` - min ${item.time}`})</li>`
     ).join('');
 
     document.getElementById('todo-list').innerHTML = data.todo.map((item, i) =>
-      `<li data-list="todo" data-index="${i}">${item.title}</li>`
+      `<li data-list=\"todo\" data-index=\"${i}\">${item.title}</li>`
     ).join('');
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -91,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (editList !== null && editIndex !== null) {
       data[editList][editIndex] = entry;
     } else {
-      data.inprogress.push(entry);
+      data.todo.push(entry);
     }
     render();
     hideModal();
