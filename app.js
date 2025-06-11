@@ -12,6 +12,10 @@ window.addEventListener('DOMContentLoaded', () => {
   const timeLabel = document.getElementById('label-time');
   const episodeInput = document.getElementById('item-episode');
   const timeInput = document.getElementById('item-time');
+  const saveBtn = document.getElementById('save-item');
+  const cancelBtn = document.getElementById('cancel');
+  const addBtn = document.getElementById('add-btn');
+  const inProgList = document.getElementById('inprogress-list');
 
   function updateFieldVisibility() {
     if (typeSelect.value === 'serie') {
@@ -27,15 +31,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function render() {
     document.getElementById('watched-list').innerHTML = data.watched.map((item, i) =>
-      `<li data-list=\"watched\" data-index=\"${i}\">${item.title}</li>`
+      `<li data-list="watched" data-index="${i}">${item.title}</li>`
     ).join('');
 
-    document.getElementById('inprogress-list').innerHTML = data.inprogress.map((item, i) =>
-      `<li data-list=\"inprogress\" data-index=\"${i}\">${item.title} (${item.type}${item.type === 'serie' ? ` - afl ${item.episode}` : ` - min ${item.time}`} )</li>`
+    inProgList.innerHTML = data.inprogress.map((item, i) =>
+      `<li data-list="inprogress" data-index="${i}">${item.title} (${item.type}${item.type === 'serie' ? ` - afl ${item.episode}` : ` - min ${item.time}`})</li>`
     ).join('');
 
     document.getElementById('todo-list').innerHTML = data.todo.map((item, i) =>
-      `<li data-list=\"todo\" data-index=\"${i}\">${item.title}</li>`
+      `<li data-list="todo" data-index="${i}">${item.title}</li>`
     ).join('');
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -68,13 +72,13 @@ window.addEventListener('DOMContentLoaded', () => {
     editIndex = null;
   }
 
-  document.getElementById('add-btn').addEventListener('click', () => showModal('Item toevoegen'));
-  document.getElementById('cancel').addEventListener('click', hideModal);
+  addBtn.addEventListener('click', () => showModal('Item toevoegen'));
+  cancelBtn.addEventListener('click', hideModal);
 
-  document.getElementById('save-item').addEventListener('click', () => {
+  saveBtn.addEventListener('click', () => {
     const title = titleInput.value.trim();
-    const type = typeSelect.value;
     if (!title) return;
+    const type = typeSelect.value;
     const entry = { title, type };
     if (type === 'serie') {
       entry.episode = parseInt(episodeInput.value) || 1;
@@ -93,7 +97,7 @@ window.addEventListener('DOMContentLoaded', () => {
     hideModal();
   });
 
-  document.getElementById('inprogress-list').addEventListener('click', e => {
+  inProgList.addEventListener('click', e => {
     const li = e.target.closest('li');
     if (!li) return;
     const list = li.dataset.list;
