@@ -38,11 +38,25 @@
   <div id="modal" class="modal hidden">
     <div class="modal-content">
       <h3 id="modal-title">Item toevoegen</h3>
-      <input type="text" id="item-title" placeholder="Titel">
-      <select id="item-type">
-        <option value="serie">Serie</option>
-        <option value="film">Film</option>
-      </select>
+      <label>
+        Titel
+        <input type="text" id="item-title" placeholder="Titel">
+      </label>
+      <label>
+        Type
+        <select id="item-type">
+          <option value="serie">Serie</option>
+          <option value="film">Film</option>
+        </select>
+      </label>
+      <label id="label-episode" class="hidden">
+        Aflevering
+        <input type="number" id="item-episode" min="1" value="1">
+      </label>
+      <label id="label-time" class="hidden">
+        Huidige minuut (film)
+        <input type="number" id="item-time" min="0" value="0">
+      </label>
       <button id="save-item">Opslaan</button>
       <button id="cancel">Annuleren</button>
     </div>
