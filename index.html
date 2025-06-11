@@ -1,7 +1,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -42,7 +42,7 @@
       <h3 id="modal-title">Item toevoegen</h3>
       <label>
         Titel
-        <input type="text" id="item-title" placeholder="Titel">
+        <input type="text" id="item-title" placeholder="Titel" style="font-size:16px;">
       </label>
       <label>
         Type
@@ -53,11 +53,11 @@
       </label>
       <label id="label-episode" class="hidden">
         Aflevering
-        <input type="number" id="item-episode" min="1" value="1">
+        <input type="number" id="item-episode" min="1" value="1" style="font-size:16px;">
       </label>
       <label id="label-time" class="hidden">
         Huidige minuut (film)
-        <input type="number" id="item-time" min="0" value="0">
+        <input type="number" id="item-time" min="0" value="0" style="font-size:16px;">
       </label>
       <button id="save-item" class="btn">Opslaan</button>
       <button id="cancel" class="btn btn-secondary">Annuleren</button>
@@ -65,10 +65,6 @@
   </div>
 
   <script src="app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  </script>
 </body>
 </html>
+
