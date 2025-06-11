@@ -4,38 +4,68 @@ let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { watched: [], inpro
 let editIndex = null;
 let editList = null;
 
+const modal = document.getElementById('modal');
+const titleInput = document.getElementById('item-title');
+const typeSelect = document.getElementById('item-type');
+const episodeLabel = document.getElementById('label-episode');
+const timeLabel = document.getElementById('label-time');
+const episodeInput = document.getElementById('item-episode');
+const timeInput = document.getElementById('item-time');
+
+function updateFieldVisibility() {
+  if (typeSelect.value === 'serie') {
+    episodeLabel.classList.remove('hidden');
+    timeLabel.classList.add('hidden');
+  } else {
+    episodeLabel.classList.add('hidden');
+    timeLabel.classList.remove('hidden');
+  }
+}
+
+typeSelect.addEventListener('change', updateFieldVisibility);
+
 function render() {
   document.getElementById('watched-list').innerHTML = data.watched.map((item,i) =>
-    `<li data-list="watched" data-index="${i}"><span>${item.title}</span></li>`
+    `<li data-list="watched" data-index="${i}">${item.title}</li>`
   ).join('');
 
   document.getElementById('inprogress-list').innerHTML = data.inprogress.map((item,i) =>
-    `<li data-list="inprogress" data-index="${i}"><span>${item.title} (${item.type})` +
-    `${item.type==='serie'?` - afl ${item.episode}`:''}${item.type==='film'?` - min ${item.time}`:''}</span></li>`
+    `<li data-list="inprogress" data-index="${i}">${item.title} (${item.type}` +
+    `${item.type==='serie'?` - afl ${item.episode}`:` - min ${item.time}`})</li>`
   ).join('');
 
   document.getElementById('todo-list').innerHTML = data.todo.map((item,i) =>
-    `<li data-list="todo" data-index="${i}"><span>${item.title}</span></li>`
+    `<li data-list="todo" data-index="${i}">${item.title}</li>`
   ).join('');
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-// Show modal
 function showModal(title, list=null, index=null) {
   editList = list;
   editIndex = index;
   document.getElementById('modal-title').textContent = title;
-  document.getElementById('item-title').value = list ? data[list][index].title : '';
-  document.getElementById('item-type').value = list && data[list][index].type ? data[list][index].type : 'serie';
-  document.getElementById('modal').classList.remove('hidden');
+  if (list && index !== null) {
+    const item = data[list][index];
+    titleInput.value = item.title;
+    typeSelect.value = item.type;
+    updateFieldVisibility();
+    episodeInput.value = item.episode || 1;
+    timeInput.value = item.time || 0;
+  } else {
+    titleInput.value = '';
+    typeSelect.value = 'serie';
+    updateFieldVisibility();
+    episodeInput.value = 1;
+    timeInput.value = 0;
+  }
+  modal.classList.remove('hidden');
 }
 
-// Hide modal
 function hideModal() {
+  modal.classList.add('hidden');
   editList = null;
   editIndex = null;
-  document.getElementById('modal').classList.add('hidden');
 }
 
 document.getElementById('add-btn').addEventListener('click', () => showModal('Item toevoegen'));
@@ -43,33 +73,34 @@ document.getElementById('add-btn').addEventListener('click', () => showModal('It
 document.getElementById('cancel').addEventListener('click', hideModal);
 
 document.getElementById('save-item').addEventListener('click', () => {
-  const title = document.getElementById('item-title').value.trim();
-  const type = document.getElementById('item-type').value;
+  const title = titleInput.value.trim();
+  const type = typeSelect.value;
   if (!title) return;
   const entry = { title, type };
-  if (type === 'serie') { entry.episode = data.inprogress[editIndex]?.episode || 1; entry.time = 0; }
-  else { entry.time = data.inprogress[editIndex]?.time || 0; entry.episode = 0; }
+  if (type === 'serie') {
+    entry.episode = parseInt(episodeInput.value) || 1;
+    entry.time = 0;
+  } else {
+    entry.time = parseInt(timeInput.value) || 0;
+    entry.episode = 0;
+  }
 
   if (editList && editIndex !== null) {
-    data[editList][editIndex] = Object.assign(data[editList][editIndex], entry);
+    data[editList][editIndex] = entry;
   } else {
-    // add to todo by default as new
-    data.todo.push(entry);
+    data.inprogress.push(entry);
   }
   render();
   hideModal();
 });
 
-// Click on items for edit or move
-['watched-list','inprogress-list','todo-list'].forEach(id => {
+// Edit existing in-progress items
+['inprogress-list'].forEach(id => {
   document.getElementById(id).addEventListener('click', e => {
     const li = e.target.closest('li'); if (!li) return;
     const list = li.dataset.list;
     const idx = +li.dataset.index;
-    if (list === 'inprogress') {
-      showModal('Bewerk voortgang', 'inprogress', idx);
-    }
-    // could add move between lists
+    showModal('Bewerk voortgang', list, idx);
   });
 });
 
