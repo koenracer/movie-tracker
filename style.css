@@ -2,21 +2,77 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 1rem;
+  padding: 0;
   background: #f4f4f4;
 }
 header {
+  background: #333;
+  color: #fff;
+  padding: 1rem;
   text-align: center;
-  margin-bottom: 1rem;
+}
+main {
+  padding: 1rem;
+  padding-bottom: 4rem; /* ruimte voor fab */
 }
 section {
-  background: #fff;
-  padding: 1rem;
   margin-bottom: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-input, button {
-  margin: 0.25rem;
+.list {
+  list-style: none;
+  padding: 0;
+}
+.list li {
+  background: #fff;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.list li span {
+  flex: 1;
+}
+.fab {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  font-size: 2rem;
+  background: #007bff;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hidden { display: none; }
+.modal-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+}
+.modal-content input, .modal-content select, .modal-content button {
+  margin: 0.5rem 0;
   padding: 0.5rem;
 }
